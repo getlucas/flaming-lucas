@@ -8,6 +8,13 @@ def root():
     return render_template('main.html')
 
 
+@app.route('/doauth', methods=['POST'])
+def do_auth():
+    username = request.form['user']
+    password = request.form['pass']
+    return "got username: <u>" + str(username) + "</u><br>password: <u>" + str(password) + "</u>"
+
+
 @app.route('/v1', methods=['GET'])
 def post_one():
     auth_token = request.args.get('auth_token')
