@@ -1,0 +1,26 @@
+<!doctype html>
+<title>v1page</title>
+<body>
+
+<h4>Main page</h4>
+<p>You're getting sent paraments now but soon (v2api) this will return a result of the script</p>
+
+{% if auth_token and v %}
+    your key = {{ auth_token }}
+    <br>
+    your ver = {{ v }}
+{% else %}
+    {% if not v %}
+        error v sent (now working on v=1 only)
+    {% else %}
+        no auth_token sent
+    {% endif %}
+    <br>
+    example of usage: .../v1?auth_token=your_token&v=1
+{% endif %}
+
+<br>
+<h4>thanks for watching!</h4>
+<hr>
+follow me on <a href='https://github.com/d3QUone'>gitHub</a> !
+</body>
