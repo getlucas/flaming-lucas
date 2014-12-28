@@ -1,11 +1,15 @@
 "flaming-robot" project
 =============
 
-this is a fun experiment to build a flask-based web-server 
+Idea
+----
+This is a fun experiment to build a flask-based web-server 
 
-Used:
+Used
+----
+- Python 2.7 for logic, bots, etc 
+- Flask 0.9 for all other 
 
-- Python 2.7
-- Flask 0.9
-
+Check this
+----
 Running on http://dequone.pythonanywhere.com/
