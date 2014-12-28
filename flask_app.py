@@ -3,13 +3,9 @@ from flask import Flask, make_response, jsonify, request, render_template
 app = Flask(__name__)
 
 @app.route('/')
-def hello_world():
-    r = '<html><title>dequone</title><h4>Hi there from Flask!</h4>'
-    r += '<p>This is a root page.</p>'
-    r += "Go to <a href='http://dequone.pythonanywhere.com/v1'>http://dequone.pythonanywhere.com/v1</a> "
-    r += "passing 'auth_token' and 'v' parameters to continue the work"
-    r += "<p>Thank you!</p></html>"
-    return r
+def root():
+    # just return the info page
+    return render_template('main.html')
 
 
 @app.route('/v1', methods=['GET'])
