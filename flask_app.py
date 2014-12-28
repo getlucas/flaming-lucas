@@ -4,11 +4,11 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
-    r = 'Hi there from Flasks!<br><br>'
-    r += 'this is a root page, go to '
-    r += "<a href='http://dequone.pythonanywhere.com/v1'>http://dequone.pythonanywhere.com/v1</a><br>"
-    r += "with 'auth_token' and 'v' parameters to continue the work"
-    r += "<p>thank you!</p>"
+    r = '<html><title>dequone</title><h4>Hi there from Flask!</h4>'
+    r += '<p>This is a root page.</p>'
+    r += "Go to <a href='http://dequone.pythonanywhere.com/v1'>http://dequone.pythonanywhere.com/v1</a> "
+    r += "passing 'auth_token' and 'v' parameters to continue the work"
+    r += "<p>Thank you!</p></html>"
     return r
 
 
