@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head><title>index</title></head>
+<body>
+<p><b>Hi there from Flask!</b> <br> &nbsp This is a main page. Please login below to continue:</p>
+
+<form action="/account" method="POST">
+    <hr>
+    Authorization:
+    <input name="user" type="text" placeholder="username" maxlength="50"/>
+    <input name="pass" type="password" placeholder="password" maxlength="50"/>
+    <input type="submit" value="Submit">
+    {% if login == 'user' %}
+        <br><b>Error: Login is requiered!</b>
+    {% elif login == 'pass' %}
+        <br><b>Error: Password is requiered!</b>
+    {% endif %}
+    <br><hr>
+</form>
+
+<form action="/registration" method="POST">
+    Registration: &nbsp&nbsp
+    <input name="user" type="text" placeholder="username" maxlength="50"/>
+    <input name="pass" type="password" placeholder="password" maxlength="50"/>
+    <input type="submit" value="Register">
+    {% if user_error %}
+        <br><b>Error! This username is occupied</b>
+    {% endif %}
+    <br><hr>
+</form>
+<br>
+Hint: go to <a href='http://dequone.pythonanywhere.com/v2'>http://dequone.pythonanywhere.com/v2</a>
+passing 'auth_token' and 'v' parameters to continue the work. You will get your auth_token after login
+<br>
+
+<p><b>Thank you for using my service!</b></p>
+<p>Made in Dec-2014</p>
+
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+(function (d, w, c) {
+    (w[c] = w[c] || []).push(function() {
+        try {
+            w.yaCounter27775485 = new Ya.Metrika({id:27775485,
+                    webvisor:true,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true});
+        } catch(e) { }
+    });
+
+    var n = d.getElementsByTagName("script")[0],
+        s = d.createElement("script"),
+        f = function () { n.parentNode.insertBefore(s, n); };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+    if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+    } else { f(); }
+})(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="//mc.yandex.ru/watch/27775485" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+</body>
+</html>
