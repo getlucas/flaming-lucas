@@ -2,7 +2,7 @@
 <html>
 <head><title>index</title></head>
 <body>
-<p><b>Hi there from Flask!</b> <br> &nbsp This is a main page. Please login below to continue:</p>
+<p><b>Snapchat scripts</b> <br> &nbsp This is a main page. Please login below to continue:</p>
 
 <form action="/account" method="POST">
     <hr>
@@ -14,6 +14,8 @@
         <br><b>Error: Login is requiered!</b>
     {% elif login == 'pass' %}
         <br><b>Error: Password is requiered!</b>
+    {% elif login == 'nouser' %}
+        <br><b>No such user!</b>
     {% endif %}
     <br><hr>
 </form>
@@ -23,8 +25,12 @@
     <input name="user" type="text" placeholder="username" maxlength="50"/>
     <input name="pass" type="password" placeholder="password" maxlength="50"/>
     <input type="submit" value="Register">
-    {% if user_error %}
-        <br><b>Error! This username is occupied</b>
+    {% if user_error == 'user' %}
+        <br><b>Error: Login is requiered!</b>
+    {% elif user_error == 'pass' %}
+        <br><b>Error: Password is requiered!</b>
+    {% elif user_error == 'occup' %}
+        <br><b>Error: This username is occupied</b>
     {% endif %}
     <br><hr>
 </form>
