@@ -7,9 +7,11 @@ This is a fun experiment to build a flask-based web-server
 
 Setup
 ----
-<code>python</code>
-<code>import flask_app as f</code>
-<code>f.init_db()</code>
+<code>
+python<br/>
+import flask_app as f<br/>
+f.init_db()
+</code>
 
 
 Used
