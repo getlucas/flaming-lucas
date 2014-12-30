@@ -35,6 +35,7 @@ def teardown_request(exception):
 def index():
     return render_template('index.html', login = None, user_error = None)
 
+
 # account page, target - login
 @app.route('/account', methods=['POST'])
 def account():
@@ -47,8 +48,7 @@ def account():
     else:
         try:
             # load username, status; check pass
-            res = g.db.execute('select * from userinfo')
-            res = res.fetchall()
+            res = g.db.execute('select * from userinfo where username = "' + username + '"').fetchall()
             for row in res:
                 if username in row:
                     if password in row:
@@ -56,8 +56,7 @@ def account():
                         u = row[1]
                         s = row[3]
                         # get tokens
-                        res = g.db.execute('select token from tokens where user_id = ' + str(uid))
-                        res = res.fetchall()
+                        res = g.db.execute('select token from tokens where user_id = ' + str(uid)).fetchall()
                         return render_template('account.html', username = u, status = s, tokens = res)
             return render_template('index.html', login = 'nouser', user_error = None)
         except Exception as ex:
@@ -92,7 +91,7 @@ def creat_new_token():
 
 # create a token here, demo; IMPROVE
 def do_random(username):
-    return username.upper() + str(int(time.time()*1000))
+    return str(int(time.time()/1000-10.5)) + username.upper() + str(int(time.time()*1000))
 
 
 @app.route('/registration', methods=['POST'])
@@ -106,25 +105,25 @@ def sign_up():
     else:
         # check if no user , create new...
         res = register(username, password)
-        if res:
-            # good, go to account page
-            return render_template('index.html', login = None, user_error = res)
+        #return make_response(jsonify({"res":res}))
+        if res == 'done':
+            return render_template('index.html', login = None, user_error = 'done')
         else:
             return render_template('index.html', login = None, user_error = 'occup')
 
 
 def register(u, p):
-    res = g.db.execute("select username from userinfo")
+    res = g.db.execute("select username from userinfo").fetchall()
     for name in res:
-        if u == name:
-            return False
+        if u in name:
+            return 'occup'
     try:
         buf = "('"+ u + "', '" + p + "', 'new')"
         g.db.execute("insert into userinfo (username, password, status) values " + buf)
         g.db.commit()
-        return True
-    except Exception as e:
-        return "DB Error: <br>" +  str(e)
+        return 'done'
+    except:
+        return 'occup'
 
 
 # demo1 (with page)
