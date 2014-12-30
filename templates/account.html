@@ -2,11 +2,9 @@
 <html>
 <head><title>{{ username }} homepage</title></head>
 <body>
-
 <p><b>{{ username }}</b>, welcome to your homepage</p>
 <hr>
 <p>Account status: <b>{{ status }}</b> </p>
-
 {% if tokens %}
     <hr>
     <p>Aviable auth_tokens:</p>
@@ -26,7 +24,6 @@
     <p>No auth_tokens are available</p>
 {% endif %}
 
-<!-- + button to create new token, with comment(permission mb?) -->
 <form action="/create_new_token" method="POST">
     To add a new auth_token to your account press:
     <input type = "text" name="user" value = {{ username }} hidden="true" />
@@ -35,14 +32,18 @@
     Check our information for developers by <a href="" target="_blank">link</a>.
 </form>
 
-
 <form action="/delete_account" method="POST">
     <hr>
     Enter PASSWORD to delete this account permanently:
-    <input type = "text" name="pass" value = "" placeholder = "password"/>
+    <input type = "text" name="pass" placeholder = "password"/>
     <input type = "submit" value = "delete">
 </form>
 
+<hr>
+<p>
+    <a href='http://dequone.pythonanywhere.com/'>back to main</a> OR
+    follow me on <a href='https://github.com/d3QUone' target='_blank'>gitHub</a> !
+</p>
 
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
