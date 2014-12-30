@@ -2,7 +2,7 @@
 <html>
 <head><title>index</title></head>
 <body>
-<p><b>Snapchat scripts</b> <br> &nbsp This is a main page. Please login below to continue:</p>
+<p><b>Snapchat scripts</b> <br> &nbsp This is a main page. Please login or register below to continue.</p>
 
 <form action="/account" method="POST">
     <hr>
@@ -31,13 +31,11 @@
         <br><b>Error: Password is requiered!</b>
     {% elif user_error == 'occup' %}
         <br><b>Error: This username is occupied</b>
+    {% elif user_error == 'done' %}
+        <br><b>Successful done</b>
     {% endif %}
     <br><hr>
 </form>
-<br>
-Hint: go to <a href='http://dequone.pythonanywhere.com/v2'>http://dequone.pythonanywhere.com/v2</a>
-passing 'auth_token' and 'v' parameters to continue the work. You will get your auth_token after login
-<br>
 
 <p><b>Thank you for using my service!</b></p>
 <p>Made in Dec-2014</p>
