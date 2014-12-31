@@ -2,46 +2,42 @@
 <html>
 <head><title>Snapchat dark side</title></head>
 <body>
-<p>
-    <b>Snapchat dark side</b> is a service for SMMs and developers automates all your processes!
-    <br>Please login or register below to continue...
-</p>
+<p><b>Snapchat dark side</b> is a service for SMMs and developers automates all your processes!</p>
 
-<form action="/account" method="POST">
-    <hr>
-    Authorization:
-    <input name="user" type="text" placeholder="username" maxlength="50"/>
-    <input name="pass" type="password" placeholder="password" maxlength="50"/>
-    <input type="submit" value="Login">
-    {% if login == 'user' %}
-        <br><b>Error: Login is requiered!</b>
-    {% elif login == 'pass' %}
-        <br><b>Error: Password is requiered!</b>
-    {% elif login == 'nouser' %}
-        <br><b>No such user!</b>
-    {% endif %}
-    <br><hr>
-</form>
-
-<form action="/registration" method="POST">
-    Registration: &nbsp&nbsp
-    <input name="user" type="text" placeholder="username" maxlength="50"/>
-    <input name="pass" type="password" placeholder="password" maxlength="50"/>
-    <input type="submit" value="Register">
-    {% if user_error == 'user' %}
-        <br><b>Error: Login is requiered!</b>
-    {% elif user_error == 'pass' %}
-        <br><b>Error: Password is requiered!</b>
-    {% elif user_error == 'occup' %}
-        <br><b>Error: This username is occupied</b>
-    {% elif user_error == 'done' %}
-        <br><b>Successful done</b>
-    {% endif %}
-    <br><hr>
-</form>
-
-
-<table width=550 border="0">
+<table width=560 border="0">
+    <tr><td><hr>
+        <form action="/account" method="POST">
+            Authorization:
+            <input name="user" type="text" placeholder="username" maxlength="50"/>
+            <input name="pass" type="password" placeholder="password" maxlength="50"/>
+            <input type="submit" value="Login">
+            {% if login == 'user' %}
+                <br><b>Error: Login is requiered!</b>
+            {% elif login == 'pass' %}
+                <br><b>Error: Password is requiered!</b>
+            {% elif login == 'nouser' %}
+                <br><b>No such user!</b>
+            {% endif %}
+        </form><hr>
+    </tr></td>
+    <tr><td>
+        <form action="/registration" method="POST">
+            Registration: &nbsp&nbsp
+            <input name="user" type="text" placeholder="username" maxlength="50"/>
+            <input name="pass" type="password" placeholder="password" maxlength="50"/>
+            <input type="submit" value="Register">
+            {% if user_error == 'user' %}
+                <br><b>Error: Login is requiered!</b>
+            {% elif user_error == 'pass' %}
+                <br><b>Error: Password is requiered!</b>
+            {% elif user_error == 'occup' %}
+                <br><b>Error: This username is occupied</b>
+            {% elif user_error == 'done' %}
+                <br><b>Successful done</b>
+            {% endif %}
+            <br><hr>
+        </form>
+    </tr></td>
     <tr><td valign="top"><b>What is it?</b></td></tr>
     <tr><td>
         This service will allow you to use the latest version of the private Snapchat API
@@ -49,10 +45,10 @@
         on our server.
     </td></tr>
     <tr><td>
-        This is an experimental project so we'll try to add all statistics we can.
+        This is an experimental project so we'll try to add all statistics we can.<hr>
     </td></tr>
 </table>
-<br>
+
 <table width=440 border="0">
     <tr>
         <td width=240 valign="top" align="left"><b>Thanks for visiting!</b></td>
