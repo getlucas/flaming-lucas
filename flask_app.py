@@ -147,7 +147,7 @@ def register(u, p):
         if u in name:
             return 'occup'
     try:
-        buf = "('"+ u + "', '" + p + "', 'new')"
+        buf = "('"+ u + "', '" + p + "', 0)"
         g.db.execute("insert into userinfo (username, password, status) values " + buf)
         g.db.commit()
         return 'done'
@@ -214,6 +214,9 @@ def post_one(method):
             if auth_token in t:
                 # well, go on with all other methods
                 if method == 'login':
+                    # 1 - check token
+                    # 2 - lauch script
+                    # 3 - return
 
                     r = {"auth_token": auth_token, "base": t,
                         "template": "user_id, token, permissions, expiration", "method": str(method)}
