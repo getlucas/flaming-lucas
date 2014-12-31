@@ -2,69 +2,76 @@
 <html>
 <head><title>{{ username }} homepage</title></head>
 <body>
-<p><b>{{ username }}</b>, welcome to your homepage</p>
-<hr>
-<p>Your limits: <b>{{ exs }}/{{ limit }}</b> auth_tokens</p>
-
-{% if tokens %}
-    <hr>
-    <p>Aviable for using auth_tokens:</p>
-    <ul>
-    {% for token in tokens %}
-        <form action="/delete_token" method="POST">
-            <li>
-                {{ token[0] }}
-                <input type = "text" name="token" value = "{{ token[0] }}" hidden="true" />
-                <input type = "text" name="user" value = "{{ username }}" hidden="true" />
-                <input type = "submit" value = "delete">
-            </li>
-        </form>
-    {% endfor %}
-    </ul>
-    <hr>
-{% else %}
-    No tokens were created.
-{% endif %}
+<table width=560 border="0">
+    <tr><td><b>{{ username }}</b>, welcome to your homepage!<hr></td></tr>
+    <tr><td>Your limits: <b>{{ exs }}/{{ limit }}</b> auth_tokens<hr></td></tr>
+    <tr><td>
+        {% if tokens %}
+            Aviable for using auth_tokens:
+            <ul>
+            {% for token in tokens %}
+                <form action="/delete_token" method="POST">
+                    <li>
+                        {{ token[0] }}
+                        <!-- add an expiration date here! + statistics... -->
+                        <input type = "text" name="token" value = "{{ token[0] }}" hidden="true" />
+                        <input type = "text" name="user" value = "{{ username }}" hidden="true" />
+                        <input type = "text" name="secr" value = "{{ password }}" hidden="true" />
+                        <input type = "submit" value = "delete">
+                    </li>
+                </form>
+            {% endfor %}
+            </ul>
+        {% else %}
+            No tokens were created.
+        {% endif %}<hr>
+    </td></tr>
+</table>
 
 {% if limit - exs > 0 %}
     <form action="/create_new_token" method="POST">
         More auth_tokens:
         <input type = "text" name="user" value = "{{ username }}" hidden="true" />
         <input type = "submit" value = "create new token">
-        <br>
     </form>
 {% else %}
-    <p>No more auth_tokens are available. You can purchase new for another scrtipt.
-    <a href="{{ url_for('customer_help') }}" target="_blank">Follow the instructions here</a> .</p>
+    You can purchase new auth_tokens for another scripts.
+    <a href="{{ url_for('customer_help') }}" target="_blank">Follow the instructions here</a><br>
 {% endif %}
 
-<p>
-    <h4>Pricing: </h4>
-    This is an experimental project. You can develope your own scripts based on the latest Snapchat API or
-    ask to update and run your own scrpit for <b>$20/month</b> per one snapchat account.
-</p>
+<br>
+<table width=560 border="0">
+    <tr><td><b>Pricing:</b></td></tr>
+    <tr><td>
+        This is an experimental project. You can develope your own scripts based on the latest Snapchat API or
+        ask to update and run your own scrpit for <b>$20/month</b> per one snapchat account.<hr>
+    </td></tr>
+    <tr><td><b>How it works:</b></td></tr>
+    <tr><td>
+        We spend your money on increasing the server-powers and buying good private proxies.
+        Be sure every auth_token will work on a separate space with a unique proxy.<hr>
+    </td></tr>
+    <tr><td>
+        Check the information for developers <a href="{{ url_for('developer_help') }}" target="_blank">
+        by link</a><hr>
+    </td></tr>
+    <tr><td>
+        <form action="/delete_account" method="POST">
+            You can delete your account permanently at any time:
+            <input type = "text" name="user" value = "{{ username }}" hidden="true" />
+            <input type = "text" name="pass" placeholder = "password"/>
+            <input type = "submit" value = "delete">
+            {% if delete_error %}
+                <b>{{ delete_error }}</b>
+                <!-- still bad -->
+            {% endif %}
+        </form>
+        <hr>
+    </td></tr>
+</table>
 
-<p>
-    <h4>How it works: </h4>
-    We spend your money on increasing the server-powers and buying good private proxies.
-    Be sure every auth_token will work on a separate space with a unique proxy.
-</p>
 
-Check our information for developers by <a href="{{ url_for('developer_help') }}" target="_blank">link</a>.
-
-<form action="/delete_account" method="POST">
-    <hr>
-    Enter your password to delete this account permanently:
-    <input type = "text" name="user" value = "{{ username }}" hidden="true" />
-    <input type = "text" name="pass" placeholder = "password"/>
-    <input type = "submit" value = "delete">
-    {% if delete_error %}
-        <b>{{ delete_error }}</b>
-        <!-- still bad -->
-    {% endif %}
-</form>
-
-<hr> <!-- and a little marketing -->
+ <!-- and a little marketing -->
 <p>
     <a href='http://dequone.pythonanywhere.com/'>back to main</a> OR
     follow me on <a href='https://github.com/d3QUone' target='_blank'>gitHub</a> !
