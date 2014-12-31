@@ -61,17 +61,19 @@ def account():
                         u = row[1]
                         s = row[3]
                         toks = g.db.execute('select token from tokens where user_id = ' + str(uid)).fetchall()
-                        return render_template('account.html', username = u, status = s, tokens = toks)
+                        return render_template('account.html', username = u, password = password,
+                                                exs = len(toks), limit = int(s), tokens = toks)
             return redirect(url_for('index', login = 'nouser', user_error = None))
     else:
-        # reload from inside of account ...
+        # redirect target, from inside of account ...
         u = request.args.get('username')
         p = request.args.get('password')
         comp = g.db.execute('select password, status, user_id from userinfo where username = "'+str(u)+'"').fetchall()[0]
-        # comp = [ password, status, user_id ]
+        # comp = [ password, limit, user_id ]
         if p == comp[0]:
             toks = g.db.execute('select token from tokens where user_id = ' + str(comp[2])).fetchall()
-            return render_template('account.html', username = u, status = comp[1], tokens = toks)
+            return render_template('account.html', username = u, password = p,
+                                    exs = len(toks), limit = int(comp[1]), tokens = toks)
         else:
             return redirect(url_for('index', login = 'pass', user_error = None))
 
@@ -80,19 +82,20 @@ def account():
 def creat_new_token():
     username = request.form['user']
     try:
-        # find user_id and status
+        # find user_id and limit (status)
         res = g.db.execute('select user_id, password, status from userinfo where username = "' + str(username) + '"')
         res = res.fetchall()[0] # be carefull!
-        user_id = res[0]
+        user_id = int(res[0])
         password = res[1]
-        status = res[2]
-        # create new token
-        if status == 'ok' or status == 'new':
-            buf = "( " + str(user_id) + ", '" + do_random(username) + "', 'NA', 1)"
+        limit = int(res[2])
+        exc = g.db.execute('select token from tokens where user_id = ' + str(user_id)).fetchall()
+        exc = len(exc)
+
+        if limit - exc > 0:
+            # create new token
+            buf = "( " + str(user_id) + ", '" + do_random(username) + "', 'basic', 1)"
             g.db.execute("insert into tokens (user_id, token, permission, expiration) values " + buf)
             g.db.commit()
-        else:
-            status = "Can't add a new token to your account"
         # redirect back
         return redirect(url_for('account' , username = username, password = password))
     except Exception as e:
@@ -103,16 +106,20 @@ def creat_new_token():
 def do_random(username):
     return str(int(time.time()/1000-10.5)) + username.upper() + str(int(time.time()*1000))
 
-# ----- hope I can add a little more security
+
 @app.route('/delete_token', methods=['POST'])
 def delete_token():
     token = request.form['token']
     username = request.form['user']
-    res = g.db.execute('select password from userinfo where username = "' + str(username) + '"').fetchall()[0]
-    # delete, without any checkup now...
-    g.db.execute("delete from tokens where token = '" + token + "'")
-    g.db.commit()
-    return redirect(url_for('account' , username = username, password = res[0]))
+    password = request.form['secr']
+    # security for side-post
+    user_id = check_user_pass(username, password)
+    if user_id == -1:
+        return redirect(url_for('account' , username = username))
+    else:
+        g.db.execute("delete from tokens where token = '" + token + "'")
+        g.db.commit()
+        return redirect(url_for('account' , username = username, password = password))
 
 
 # create new user
@@ -204,6 +211,18 @@ def post_one():
 @app.errorhandler(404)
 def not_found(error):
     return make_response(jsonify({'code': 404, 'message': 'Page not found'}), 404)
+
+
+# --- HELPS, REFS ---
+
+@app.route('/customer_help')
+def customer_help():
+    return render_template('customer_help.html')
+
+@app.route('/developer_help')
+def developer_help():
+    return render_template('developer_help.html')
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
