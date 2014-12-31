@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+<head>
+    <title>Developer help</title>
+</head>
+<body>
+
+<table width=560 border="0">
+    <tr><td><b>Aviable API methods:</b></td></tr>
+    <tr><td>Latest API version: 2, so the basic endpoint is '/v2'<hr></td></tr>
+    <tr><td>
+        <u>Endpoint:</u> '/get_tokens'<br>
+        <u>Parameters:</u> 'username' - your username (string), 'password' - your password (string)<br>
+        <u>Returns:</u> a list of dictionaries with aviable tokens (string) and expiration time (timestamp).
+        It is the only method that doesn't require auth_token.<br>
+        <u>Example:</u> {"list": [ {"auth_token":"yourtoken1", "expires": 1422700651}, {...} ]} <hr>
+    </td></tr>
+    <!--tr><td>
+        <u>Endpoint:</u> <br>
+        <u>Parameters:</u> <br>
+        <u>Returns:</u> <br>
+        <u>Example:</u> <br>
+        <hr>
+    </td></tr-->
+
+    <tr><td>Go back to <a href="{{ url_for('index') }}">main</a></tr></td>
+    <tr><td>Dec-2014</td></tr>
+    <tr><td> </td></tr>
+</table>
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+(function (d, w, c) {
+    (w[c] = w[c] || []).push(function() {
+        try {
+            w.yaCounter27775485 = new Ya.Metrika({id:27775485,
+                    webvisor:true,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true});
+        } catch(e) { }
+    });
+
+    var n = d.getElementsByTagName("script")[0],
+        s = d.createElement("script"),
+        f = function () { n.parentNode.insertBefore(s, n); };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+    if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+    } else { f(); }
+})(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="//mc.yandex.ru/watch/27775485" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+</body>
+</html>
