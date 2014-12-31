@@ -3,6 +3,7 @@ from contextlib import closing
 from flask import Flask, make_response, jsonify, request, g
 from flask import render_template, redirect, url_for
 import time
+import uuid
 
 
 app = Flask(__name__)
@@ -89,11 +90,11 @@ def creat_new_token():
         password = res[1]
         limit = int(res[2])
         exc = g.db.execute('select token from tokens where user_id = ' + str(user_id)).fetchall()
-        exc = len(exc)
-
-        if limit - exc > 0:
+        if limit - len(exc) > 0:
             # create new token
-            buf = "( " + str(user_id) + ", '" + do_random(username) + "', 'basic', 1)"
+            buf = "( " + str(user_id) + ", '" + do_random(username) + "', 'basic', "
+            buf += str(int(time.time()) + 60*60*24*30) + ")"
+            # datetime.datetime.fromtimestamp(x + 60*60*24*31) # to find date back
             g.db.execute("insert into tokens (user_id, token, permission, expiration) values " + buf)
             g.db.commit()
         # redirect back
@@ -102,9 +103,8 @@ def creat_new_token():
         r = {'log': str(e), 'error-tag': 'user', 'code': 401, 'message': 'oh fuck...'}
         return make_response(jsonify(r))
 
-# create a token here, demo; IMPROVE
 def do_random(username):
-    return str(int(time.time()/1000-10.5)) + username.upper() + str(int(time.time()*1000))
+    return str(uuid.uuid5(uuid.NAMESPACE_DNS, str(username.upper()) + str(int(time.time())) ))
 
 
 @app.route('/delete_token', methods=['POST'])
@@ -169,17 +169,15 @@ def delete_account():
         g.db.commit()
         return redirect(url_for('index'))
 
+# --- DEVELOPERS API ---
 
 # add check-password-method, returns user_id on success and -1 if no user!!!
 def check_user_pass(u, p):
-    res = g.db.execute("select password, user_id from userinfo where username = '" + str(u) + "'").fetchall()[0]
-    if p in res:
-        return res[1]
-    else:
-        return -1
-
-
-# --- DEVELOPERS API ---
+    if u != None and p != None:
+        res = g.db.execute("select password, user_id from userinfo where username = '" + str(u) + "'").fetchall()[0]
+        if p in res:
+            return res[1]
+    return -1
 
 # demo1 (with page)
 @app.route('/v1', methods=['GET'])
@@ -192,18 +190,38 @@ def get_one():
     return render_template('v1api.html', auth_token = auth_token, v=v)
 
 # demo2 (json only)
-@app.route('/v2', methods=['GET'])
-def post_one():
-    auth_token = request.args.get('auth_token')
-    method = request.args.get('method')
-    res = g.db.execute('select * from tokens').fetchall()
-    for t in res:
-        if auth_token in t:
-            r = {"auth_token": auth_token, "base": t,
-                "template": "user_id, token, permissions, expiration", "method": str(method)}
-            return make_response(jsonify(r))
-    r = {'message': 'this auth_token is not registered', 'error-tag': 'auth_token', 'code': 401}
-    return make_response(jsonify(r))
+@app.route('/v2/<method>', methods=['GET'])
+def post_one(method):
+    if method == 'get_tokens':
+        u = request.args.get('username')
+        p = request.args.get('password')
+        user_id = check_user_pass(u, p)
+        if user_id == -1:
+            return make_response(jsonify({"method": method, "error": "correct username or password are required"}))
+        else:
+            res = g.db.execute('select token, expiration from tokens where user_id = ' + str(user_id)).fetchall()
+            out = []
+            for row in res:
+                r = {}
+                r['auth_token'] = row[0]
+                r['expires'] = row[1]
+                out.append(r)
+            return make_response(jsonify({"list": out}))
+    else:
+        auth_token = request.args.get('auth_token')
+        res = g.db.execute('select * from tokens').fetchall()
+        for t in res:
+            if auth_token in t:
+                # well, go on with all other methods
+                if method == 'login':
+
+                    r = {"auth_token": auth_token, "base": t,
+                        "template": "user_id, token, permissions, expiration", "method": str(method)}
+                    return make_response(jsonify(r))
+                else:
+                    return make_response(jsonify({"method": method, "error": "this method is not registered"}))
+        r = {'message': 'this auth_token is not registered', 'error-tag': 'auth_token', 'code': 401}
+        return make_response(jsonify(r))
 
 
 # --- ERRORS ---
@@ -220,6 +238,7 @@ def customer_help():
     return render_template('customer_help.html')
 
 @app.route('/developer_help')
+@app.route('/v2')
 def developer_help():
     return render_template('developer_help.html')
 
