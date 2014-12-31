@@ -4,7 +4,8 @@
 <body>
 <p><b>{{ username }}</b>, welcome to your homepage</p>
 <hr>
-<p>Account status: <b>{{ status }}</b> </p>
+<p>Your limits: <b>{{ exs }}/{{ limit }}</b> auth_tokens</p>
+
 {% if tokens %}
     <hr>
     <p>Aviable for using auth_tokens:</p>
@@ -22,20 +23,38 @@
     </ul>
     <hr>
 {% else %}
-    <p>No auth_tokens are available</p>
+    No tokens were created.
 {% endif %}
 
-<form action="/create_new_token" method="POST">
-    To add a new auth_token to your account press:
-    <input type = "text" name="user" value = "{{ username }}" hidden="true" />
-    <input type = "submit" value = "create new token">
-    <br>
-    Check our information for developers by <a href="" target="_blank">link</a>.
-</form>
+{% if limit - exs > 0 %}
+    <form action="/create_new_token" method="POST">
+        More auth_tokens:
+        <input type = "text" name="user" value = "{{ username }}" hidden="true" />
+        <input type = "submit" value = "create new token">
+        <br>
+    </form>
+{% else %}
+    <p>No more auth_tokens are available. You can purchase new for another scrtipt.
+    <a href="{{ url_for('customer_help') }}" target="_blank">Follow the instructions here</a> .</p>
+{% endif %}
+
+<p>
+    <h4>Pricing: </h4>
+    This is an experimental project. You can develope your own scripts based on the latest Snapchat API or
+    ask to update and run your own scrpit for <b>$20/month</b> per one snapchat account.
+</p>
+
+<p>
+    <h4>How it works: </h4>
+    We spend your money on increasing the server-powers and buying good private proxies.
+    Be sure every auth_token will work on a separate space with a unique proxy.
+</p>
+
+Check our information for developers by <a href="{{ url_for('developer_help') }}" target="_blank">link</a>.
 
 <form action="/delete_account" method="POST">
     <hr>
-    Enter PASSWORD to delete this account permanently:
+    Enter your password to delete this account permanently:
     <input type = "text" name="user" value = "{{ username }}" hidden="true" />
     <input type = "text" name="pass" placeholder = "password"/>
     <input type = "submit" value = "delete">
