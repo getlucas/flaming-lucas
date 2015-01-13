@@ -1,7 +1,6 @@
-import sqlite3
+from flask import Flask, make_response, jsonify, request, g, render_template, redirect, url_for
 from contextlib import closing
-from flask import Flask, make_response, jsonify, request, g
-from flask import render_template, redirect, url_for
+import sqlite3
 import time
 import uuid
 
@@ -61,7 +60,7 @@ def account():
                         uid = row[0]
                         u = row[1]
                         s = row[3]
-                        toks = g.db.execute('select token from tokens where user_id = ' + str(uid)).fetchall()
+                        toks = g.db.execute('select token from tokens where user_id = {0}'.format(uid)).fetchall()
                         return render_template('account.html', username = u, password = password,
                                                 exs = len(toks), limit = int(s), tokens = toks)
             return redirect(url_for('index', login = 'nouser', user_error = None))
@@ -69,10 +68,10 @@ def account():
         # redirect target, from inside of account ...
         u = request.args.get('username')
         p = request.args.get('password')
-        comp = g.db.execute('select password, status, user_id from userinfo where username = "'+str(u)+'"').fetchall()[0]
+        comp = g.db.execute('select password, status, user_id from userinfo where username = "{0}"'.format(u)).fetchall()[0]
         # comp = [ password, limit, user_id ]
         if p == comp[0]:
-            toks = g.db.execute('select token from tokens where user_id = ' + str(comp[2])).fetchall()
+            toks = g.db.execute('select token from tokens where user_id = {0}'.format(comp[2])).fetchall()
             return render_template('account.html', username = u, password = p,
                                     exs = len(toks), limit = int(comp[1]), tokens = toks)
         else:
@@ -84,24 +83,23 @@ def creat_new_token():
     username = request.form['user']
     try:
         # find user_id and limit (status)
-        res = g.db.execute('select user_id, password, status from userinfo where username = "' + str(username) + '"')
+        res = g.db.execute('select user_id, password, status from userinfo where username = "{0}"'.format(username))
         res = res.fetchall()[0] # be carefull!
         user_id = int(res[0])
         password = res[1]
         limit = int(res[2])
-        exc = g.db.execute('select token from tokens where user_id = ' + str(user_id)).fetchall()
+        exc = g.db.execute('select token from tokens where user_id = {0}'.format(user_id)).fetchall()
         if limit - len(exc) > 0:
             # create new token
-            buf = "( " + str(user_id) + ", '" + do_random(username) + "', 'basic', "
-            buf += str(int(time.time()) + 60*60*24*30) + ")"
             # datetime.datetime.fromtimestamp(x + 60*60*24*31) # to find date back
-            g.db.execute("insert into tokens (user_id, token, permission, expiration) values " + buf)
+            g.db.execute("insert into tokens (user_id, token, permission, expiration) values ({0}, '{1}', 'basic', {2})".format(user_id, do_random(username), int(time.time()) + 60*60*24*30))
             g.db.commit()
         # redirect back
         return redirect(url_for('account' , username = username, password = password))
     except Exception as e:
         r = {'log': str(e), 'error-tag': 'user', 'code': 401, 'message': 'oh fuck...'}
         return make_response(jsonify(r))
+
 
 def do_random(username):
     return str(uuid.uuid5(uuid.NAMESPACE_DNS, str(username.upper()) + str(int(time.time())) ))
@@ -147,8 +145,7 @@ def register(u, p):
         if u in name:
             return 'occup'
     try:
-        buf = "('"+ u + "', '" + p + "', 0)"
-        g.db.execute("insert into userinfo (username, password, status) values " + buf)
+        g.db.execute("insert into userinfo (username, password, status) values ('{0}', '{1}', 0)".format(u, p))
         g.db.commit()
         return 'done'
     except:
@@ -164,8 +161,8 @@ def delete_account():
         return redirect(url_for('account' , username = user))
     else:
         # delete account + all tokens
-        g.db.execute("delete from tokens where user_id = " + str(user_id))
-        g.db.execute("delete from userinfo where user_id = " + str(user_id))
+        g.db.execute("delete from tokens where user_id = {0}".format(user_id))
+        g.db.execute("delete from userinfo where user_id = {0}".format(user_id))
         g.db.commit()
         return redirect(url_for('index'))
 
@@ -174,7 +171,7 @@ def delete_account():
 # add check-password-method, returns user_id on success and -1 if no user!!!
 def check_user_pass(u, p):
     if u != None and p != None:
-        res = g.db.execute("select password, user_id from userinfo where username = '" + str(u) + "'").fetchall()[0]
+        res = g.db.execute("select password, user_id from userinfo where username = '{0}'".format(u)).fetchall()[0]
         if p in res:
             return res[1]
     return -1
@@ -199,7 +196,7 @@ def post_one(method):
         if user_id == -1:
             return make_response(jsonify({"method": method, "error": "correct username or password are required"}))
         else:
-            res = g.db.execute('select token, expiration from tokens where user_id = ' + str(user_id)).fetchall()
+            res = g.db.execute('select token, expiration from tokens where user_id = {0}'.format(user_id)).fetchall()
             out = []
             for row in res:
                 r = {}
