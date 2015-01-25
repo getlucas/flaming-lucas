@@ -42,40 +42,43 @@ def index():
 # account page, target - login
 @app.route('/account', methods=['POST', 'GET'])
 def account():
-    if request.method == 'POST':
-        # data from forms (still index-page)
-        username = request.form['user']
-        password = request.form['pass']
-
-        if len(str(username)) == 0:
-            return redirect(url_for('index', login = 'user', user_error = None))
-        elif len(str(password)) == 0:
-            return redirect(url_for('index', login = 'pass', user_error = None))
+    try:
+        if request.method == 'POST':
+            # data from forms (still index-page)
+            username = request.form['user']
+            password = request.form['pass']
+    
+            if len(str(username)) == 0:
+                return redirect(url_for('index', login = 'user', user_error = None))
+            elif len(str(password)) == 0:
+                return redirect(url_for('index', login = 'pass', user_error = None))
+            else:
+                # check if can load account-page
+                res = g.db.execute('select * from userinfo where username = "' + username + '"').fetchall()
+                for row in res:
+                    if username in row:
+                        if password in row:
+                            uid = row[0]
+                            u = row[1]
+                            s = row[3]
+                            toks = g.db.execute('select token from tokens where user_id = {0}'.format(uid)).fetchall()
+                            return render_template('account.html', username = u, password = password,
+                                                    exs = len(toks), limit = int(s), tokens = toks)
+                return redirect(url_for('index', login = 'nouser', user_error = None))
         else:
-            # check if can load account-page
-            res = g.db.execute('select * from userinfo where username = "' + username + '"').fetchall()
-            for row in res:
-                if username in row:
-                    if password in row:
-                        uid = row[0]
-                        u = row[1]
-                        s = row[3]
-                        toks = g.db.execute('select token from tokens where user_id = {0}'.format(uid)).fetchall()
-                        return render_template('account.html', username = u, password = password,
-                                                exs = len(toks), limit = int(s), tokens = toks)
-            return redirect(url_for('index', login = 'nouser', user_error = None))
-    else:
-        # redirect target, from inside of account ...
-        u = request.args.get('username')
-        p = request.args.get('password')
-        comp = g.db.execute('select password, status, user_id from userinfo where username = "{0}"'.format(u)).fetchall()[0]
-        # comp = [ password, limit, user_id ]
-        if p == comp[0]:
-            toks = g.db.execute('select token from tokens where user_id = {0}'.format(comp[2])).fetchall()
-            return render_template('account.html', username = u, password = p,
-                                    exs = len(toks), limit = int(comp[1]), tokens = toks)
-        else:
-            return redirect(url_for('index', login = 'pass', user_error = None))
+            # redirect target, from inside of account ...
+            u = request.args.get('username')
+            p = request.args.get('password')
+            comp = g.db.execute('select password, status, user_id from userinfo where username = "{0}"'.format(u)).fetchall()[0]
+            # comp = [ password, limit, user_id ]
+            if p == comp[0]:
+                toks = g.db.execute('select token from tokens where user_id = {0}'.format(comp[2])).fetchall()
+                return render_template('account.html', username = u, password = p,
+                                        exs = len(toks), limit = int(comp[1]), tokens = toks)
+            else:
+                return redirect(url_for('index', login = 'pass', user_error = None))
+    except Exception as e:
+        return "Error {0}".format(e)
 
 
 @app.route('/create_new_token', methods=['POST'])
