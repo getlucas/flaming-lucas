@@ -18,7 +18,7 @@ def init_db():
             db.cursor().executescript(f.read())
         db.commit()
     db = connect_db()
-    db.execute("insert into userinfo (username, password, status) values ('admin1', 'zxC_aQL2', 'ok')") #good
+    db.execute("insert into userinfo (username, password, status) values ('admin1', 'zxC_aQL2', 5)") #good
     db.commit()
 
 @app.before_request
