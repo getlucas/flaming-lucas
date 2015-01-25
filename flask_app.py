@@ -6,7 +6,7 @@ import uuid
 
 
 app = Flask(__name__)
-app.config.update(DATABASE = '/home/dequone/simpleapi/base2.db', DEBUG = False)
+app.config.update(DATABASE = 'base.db', DEBUG = False)
 
 def connect_db():
     return sqlite3.connect(app.config['DATABASE'])
