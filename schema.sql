@@ -3,7 +3,7 @@ create table userinfo (
   user_id integer primary key autoincrement,
   username text not null,
   password text not null,
-  status text not null
+  status integer not null
 );
 drop table if exists tokens;
 create table tokens (
