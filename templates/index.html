@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head><title>Snapchat dark side</title></head>
+<!-- this line is needed on every page you want style, flask goes to static folder and uses style.css to render page -->
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}"> 
 <body>
 <table width=560 border="0">
     <tr><td>
+    	<div id="main-header">
         <b>Snapchat dark side</b>: service for SMMs and developers automates all your processes!
+        </div>
         <hr>
         <form action="/account" method="POST">
             Authorization:
