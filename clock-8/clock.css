@@ -1,0 +1,52 @@
+body
+{
+    background: #ffffcc;
+    text-align: center;
+    font-size: 1.4em;
+    font-family: Verdana,sans-serif;
+    padding: 0;
+    margin: 0;
+}
+#offset
+{
+    position: absolute;
+    top: 20px;
+    left: 0.5%;
+    width: 99%;
+    height: 120px;
+    background-color: yellow; 
+    color: black;
+    border: 1px dashed black;
+    border-bottom: none;
+    padding-top: 10px;
+    font-weight: bold;
+}
+#offset_label
+{
+    position: absolute;
+    width: 99%;
+    left: 0.5%;
+    height: 20px;
+    font-size: 0.6em;
+    background: black; 
+    color: yellow;
+    border: 1px dashed yellow;
+    border-top: none;
+    font-weight: bold;
+}
+.nice_offset
+{
+    font-size: 0.6em;
+}
+.offset_value
+{
+    font-size: 0.6em;
+}
+.ap_offset_value
+{
+    display: block;
+}
+.button_24
+{
+    display: block;
+}

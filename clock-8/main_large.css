@@ -1,0 +1,45 @@
+body
+{
+    background: #ffffcc;
+    text-align: center;
+    font-size: 1.4em;
+    font-family: Verdana,sans-serif;
+}
+#gmt
+{
+    width: 15em;
+    background-color: yellow; 
+    color: black;
+    margin: 0 auto;
+    border: 1px solid black;
+    border-bottom: none;
+}
+#gmt_label
+{
+    font-size: 0.6em;
+    width: 33%;
+    background-color: yellow; 
+    color: black;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    border: 1px solid black;
+}
+#user
+{
+    width: 15em;
+    background: #909090;
+    color: yellow;
+    margin: 0 auto;
+    border: 1px solid yellow;
+    border-bottom: none;
+    font-size: 0.7em;
+}
+#user_label
+{
+    font-size: 0.6em;
+    width: 33%;
+    background: #909090;
+    color: yellow;;
+    margin: 0 auto;
+    border: 1px solid yellow;
+}

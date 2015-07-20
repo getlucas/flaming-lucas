@@ -1,0 +1,76 @@
+body
+{
+        font-family: Helvetica,Verdana,sans-serif;
+	padding: 0;
+        margin: 0;
+}
+#select_container
+{
+	width: 99%;
+	text-align: center;
+}
+#country1
+{
+	width: 45%;
+	text-align: center;
+        background: black;
+        color: yellow;
+        font-size: 1.1em;
+}
+#country2
+{
+	width: 45%;
+	text-align: center;
+	background: yellow;
+        color: black;
+        font-size: 1.1em;
+}
+#mybody
+{
+        width: 99%;
+	text-align: center;
+}
+#container_1
+{
+       width: 45%;
+       float: left;
+       margin-left: 4.9%;
+       background: black;
+       color: yellow;
+       font-size: 1.2em;
+       font-weight: bold;
+}
+#offset_label_1
+{
+       background: black;
+       color: yellow;
+       font-size: 75%;
+       font-weight: normal;
+       border-bottom: 1px dashed yellow;
+}
+#container_2
+{
+       width: 45%;
+       float: left;
+       margin-left: 0.3%;
+       background: yellow;
+       color: black;
+       font-size: 1.2em;
+       font-weight: bold;
+}
+#offset_label_2
+{
+       background: yellow;
+       color: black;
+       font-size: 75%;
+       font-weight: normal;
+       border-bottom: 1px dashed black;
+}
+#ap_nice_offset_1,#ap_nice_offset_2
+{
+       display: block;
+}
+#button_24_1,#button_24_2
+{
+       display: block;
+}

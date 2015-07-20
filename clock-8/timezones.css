@@ -1,0 +1,126 @@
+	body.new {
+	    font-family: sans-serif;
+	    font-weight: normal;
+	    font-style: normal;
+	    background-color: #000;
+	}
+	.new .container {
+	    width: 960px;
+	    margin: 0 auto;
+	    overflow: hidden;
+	}
+	.new .clock {
+	    width: 800px;
+	    margin: 0 auto;
+	    padding: 30px;
+	    border: 1px solid #333;
+	    color: #fff;
+	}
+	.new #Date {
+	    font-size: 36px;
+	    text-align: center;
+	    text-shadow: 0 0 5px #00c6ff;
+	}
+	.new ul {
+	    width: 800px;
+	    margin: 0 auto;
+	    padding: 0px;
+	    list-style: none;
+	    text-align: center;
+	}
+	.new ul li {
+	    display: inline;
+	    font-size: 10em;
+	    text-align: center;
+	    text-shadow: 0 0 5px #00c6ff;
+	}
+	.new #point {
+	    position: relative;
+	    padding-left: 10px;
+	    padding-right: 10px;
+	}
+	body.old {
+	    background: #ffffcc;
+	    text-align: center;
+	    font-size: 1.4em;
+	    font-family: Verdana,sans-serif;
+	    padding: 0;
+	    margin: 0;
+	}
+	.old .container {
+	    width: 100%;
+	    margin: 0 auto;
+	    overflow: hidden;
+	}
+	.old .clock-top {
+	    position: absolute;
+	    width: 99%;
+	    left: 0.5%;
+	    height: 20px;
+	    font-size: 0.6em;
+	    background: black; 
+	    color:#ff0;
+	    border: 1px dashed yellow;
+	    border-top: none;
+	    font-weight: bold;
+	}
+	.old .clock-bottom {
+	    color: black;
+	}
+	.old .clock {
+	    position: absolute;
+	    top: 20px;
+	    left: 0.5%;
+	    width: 99%;
+	    height: 120px;
+	    background-color: #ff0; 
+	    color: black;
+	    border:1px dashed #000;
+	    border-bottom: none;
+	    padding-top: 10px;
+	   /* font-weight:700;*/
+	   font-size:14px;
+
+	}
+	.old form {
+	    position: absolute;
+	    top: 180px;
+	    left:43.33%;
+	    
+	}	
+	.old #Date {
+	    
+	}
+	.old ul {
+	    width: 200px;
+	    margin: 0 auto;
+	    padding: 0px;
+	    list-style: none;
+	    text-align: center;
+	}
+	
+	.old ul li {
+	    display: inline;
+	    text-align: center;
+	}
+	
+	.old #point {
+	    position: relative;
+	    padding-left: 0px;
+	    padding-right: 0px;
+	}
+
+#select2-tz_1_picker-container{font-size:15px;}
+#select2-tz_2_picker-container{font-size:15px;}
+#select2-tz_1_picker-results,
+#select2-tz_2_picker-results{
+margin:0;
+padding:0;
+width:309px;
+}
+#select2-tz_1_picker-results li,
+#select2-tz_2_picker-results li{
+display:block;
+text-align:left;
+font-size:13px;
+}

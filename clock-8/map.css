@@ -1,0 +1,100 @@
+	
+					
+	body.new {
+	    font-family: sans-serif;
+	    font-weight: normal;
+	    font-style: normal;
+	    background-color: #000;
+	}
+	
+	.new .container {
+	    width: 960px;
+	    margin: 0 auto;
+	    overflow: hidden;
+	}
+	
+	.new .clock {
+	    width: 800px;
+	    margin: 0 auto;
+	    padding: 30px;
+	    border: 1px solid #333;
+	    color: #fff;
+	}
+	
+	.new #Date {
+	    font-size: 36px;
+	    text-align: center;
+	    text-shadow: 0 0 5px #00c6ff;
+	}
+	
+	.new ul {
+	    width: 800px;
+	    margin: 0 auto;
+	    padding: 0px;
+	    list-style: none;
+	    text-align: center;
+	}
+	
+	.new ul li {
+	    display: inline;
+	    font-size: 10em;
+	    text-align: center;
+	    text-shadow: 0 0 5px #00c6ff;
+	}
+	
+	.new #point {
+	    position: relative;
+	    padding-left: 10px;
+	    padding-right: 10px;
+	}
+	
+	body.old {
+	    font-family: sans-serif;
+	    font-weight: normal;
+	    font-style: normal;
+	    background-color: #000;
+	}
+	
+	.old .container {
+	    width: 960px;
+	    margin: 0 auto;
+	    overflow: hidden;
+	}
+	
+	.old .clock {
+	    width: 800px;
+	    margin: 0 auto;
+	    padding: 30px;
+	    border: 1px solid #333;
+	    color: #fff;
+	}
+	
+	.old #Date {
+	    font-size: 36px;
+	    text-align: center;
+	    text-shadow: 0 0 5px #00c6ff;
+	}
+	
+	.old ul {
+	    width: 800px;
+	    margin: 0 auto;
+	    padding: 0px;
+	    list-style: none;
+	    text-align: center;
+	}
+	
+	.old ul li {
+	    display: inline;
+	    font-size: 10em;
+	    text-align: center;
+	    text-shadow: 0 0 5px #00c6ff;
+	}
+	
+	.old #point {
+	    position: relative;
+	    padding-left: 10px;
+	    padding-right: 10px;
+	}
+
+
+

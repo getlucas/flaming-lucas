@@ -1,0 +1,100 @@
+<html>
+	<head>
+		<script language="javascript" src="http://wwp.greenwichmeantime.com/time/scripts/clock-8/jquery-1.4.4.js"></script>
+		<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+		<script type="text/javascript">
+			function initialize(lat,lng)
+			{
+				var latlng = new google.maps.LatLng(lat, lng);
+				var myOptions = {
+				  zoom: parseInt($('#zoom_level').val()),
+				  center: latlng,
+				  mapTypeId: google.maps.MapTypeId.ROADMAP
+				};
+				var map = new google.maps.Map(document.getElementById("map_canvas"),
+					myOptions);
+				set_map_size();
+				var infowindow = new google.maps.InfoWindow({
+				content: $('#info_window_content').val()
+				});
+				var marker = new google.maps.Marker({
+				  position: latlng, 
+				  map: map, 
+				  title:$('#marker_tooltip').val()
+				}); 
+				google.maps.event.addListener(marker, 'click', function() {
+				  infowindow.open(map,marker);
+				});
+				
+				var generated_code = "function initialize("+lat+","+lng+")\
+{\
+	var latlng = new google.maps.LatLng(lat, lng);\
+	var myOptions = {\
+	  zoom: "+parseInt($('#zoom_level').val())+",\center: latlng,\
+	  mapTypeId: google.maps.MapTypeId.ROADMAP\
+	};\
+	var map = new google.maps.Map(document.getElementById('map_canvas'),\
+		myOptions);\
+	var infowindow = new google.maps.InfoWindow({\
+	content: '"+$('#info_window_content').val()+"'});\
+	var marker = new google.maps.Marker({\
+	  position: latlng,\
+	  map: map,\
+	  title:'"+$('#marker_tooltip').val()+"'\
+	}); \
+	google.maps.event.addListener(marker, 'click', function() {\
+	  infowindow.open(map,marker);\
+	});\
+}\
+";
+			$('#pasteme_code').html(generated_code);
+			$('#pasteme_html').html('&lt;div id="map_canvas" style="width:'+$('#map_width').val()+'px; height:'+$('#map_height').val()+'px"&gt;&lt;/div&gt;');
+			}
+			function set_map_size()
+			{
+				$('#map_container').height(parseInt($('#map_height').val()));
+				$('#map_container').width(parseInt($('#map_width').val()));
+			}
+			function make_gmap()
+			{
+				$.getJSON('proxy.php?address='+$('#get_coords').val(),function(data){
+																	var latitude=data.results[0].geometry.location.lat;
+																	var longitude=data.results[0].geometry.location.lng;
+																	initialize(latitude,longitude);
+																	});
+			}
+			</script>
+	</head>
+	<body>
+		<form id="gmap_creator">
+			Location: <input type="text" size="100" id="get_coords"></input>
+			<br />
+			Zoom: <input type="text" size="5" id="zoom_level"></input>
+			<br />
+			Map Width: <input type="text" size="5" id="map_width"></input>
+			<br />
+			Map Height: <input type="text" size="5" id="map_height"></input>
+			<br/>
+			Marker Tooltip: <input type="text" size="100" id="marker_tooltip"></input>
+			<br />
+			Info Window Content: <textarea width="100" height="50" id="info_window_content"></textarea>
+			<br />
+			<input type="button" value="Submit" onclick="make_gmap()">
+			<input type="reset" value="Reset">
+		</form>
+		<div id="map_container">
+			<div id="map_canvas" style="width:100%; height:100%"></div>
+		</div>
+		Within &lt;head&gt;
+		<pre width="100">
+&lt;script type=&quot;text/javascript&quot; src=&quot;http://maps.google.com/maps/api/js?sensor=false&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+		</pre>
+		<pre id="pasteme_code" width="100"></pre>
+		<pre width="100">
+&lt;/script&gt;
+		</pre>
+		Within &lt;body&gt;
+		<pre id="pasteme_html" width="100"></pre>
+	</body>
+</html>

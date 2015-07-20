@@ -1,0 +1,30 @@
+body
+{
+    background: #ffffcc;
+    text-align: center;
+    font-size: 1.4em;
+    font-family: Verdana,sans-serif;
+}
+div
+{
+    background: yellow;
+    border: 1px dotted black;
+}
+.name
+{
+    display: block;
+    font-size: 0.9em;
+    background: black;
+    color: yellow;
+    border: 1px dotted yellow;
+}
+.val
+{
+    font-size: 1.4em;
+}
+.label
+{
+    font-size: 0.9em;
+    border: none;
+}
+
